@@ -3,6 +3,7 @@
 Research on unmanned vehicles, currently organized into:
 
 - [Vision AI](Vision-AI/)
+  - [TriV-Net UAV Perception: reproducibility materials and object-detection preprocessing](Vision-AI/TriV-Net-UAV-Perception/)
 - [Path Planning](Path-Planning/)
   - [TA-RRT*: Terrain-analysis-based adaptive RRT*](Path-Planning/TA-RRT/)
 
