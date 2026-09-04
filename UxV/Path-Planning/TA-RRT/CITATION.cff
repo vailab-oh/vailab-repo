@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the associated paper below."
+title: "TA-RRT*: Research software for adaptive sampling-based path planning"
+type: software
+version: 0.1.0
+license: MIT
+repository-code: "https://github.com/vailab-oh/vailab-repo/tree/main/UxV/Path-Planning/TA-RRT"
+authors:
+  - family-names: Oh
+    given-names: Taegeun
+    email: tgoh@du.ac.kr
+keywords:
+  - path planning
+  - RRT*
+  - terrain analysis
+  - adaptive sampling
+  - adaptive step size
+preferred-citation:
+  type: article
+  authors:
+    - family-names: Oh
+      given-names: Taegeun
+    - family-names: Won
+      given-names: Yun-Jae
+    - family-names: Lee
+      given-names: Sungjin
+  title: "TA-RRT*: Adaptive Sampling-Based Path Planning Using Terrain Analysis"
+  journal: Applied Sciences
+  volume: 15
+  issue: 5
+  start: 2287
+  year: 2025
+  month: 2
+  doi: "10.3390/app15052287"
+  url: "https://doi.org/10.3390/app15052287"
