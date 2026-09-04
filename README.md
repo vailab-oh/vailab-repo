@@ -2,7 +2,7 @@
 
 This repository organizes research resources from VAI Lab at Dong Seoul University.
 
-**Research homepage:** [VAI Lab](https://taegeun-oh.github.io/)
+**Research homepage:** [VAI Lab](https://vailab-oh.github.io/)
 
 ## Research Areas
 
