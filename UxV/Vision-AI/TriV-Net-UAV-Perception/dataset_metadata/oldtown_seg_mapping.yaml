@@ -1,0 +1,39 @@
+num_classes: 12
+ignore_index: 255
+classes:
+  - train_id: 0
+    name: 나무
+    raw_ids: [46, 56, 59, 197, 208, 214, 224, 234]
+  - train_id: 1
+    name: 건물
+    raw_ids: [53, 73, 96, 139, 143, 146, 156, 161, 163, 168, 170, 174, 182, 195, 196, 202, 205, 212, 216, 217, 225, 231, 232, 233, 240, 244, 255]
+  - train_id: 2
+    name: 표지판
+    raw_ids: [79, 118, 178, 201, 209]
+  - train_id: 3
+    name: 의자
+    raw_ids: [85, 132]
+  - train_id: 4
+    name: 하수구
+    raw_ids: [91]
+  - train_id: 5
+    name: 신호등
+    raw_ids: [128]
+  - train_id: 6
+    name: 휴지통
+    raw_ids: [130]
+  - train_id: 7
+    name: 방지턱
+    raw_ids: [199]
+  - train_id: 8
+    name: 전기줄
+    raw_ids: [221, 237]
+  - train_id: 9
+    name: 바닥
+    raw_ids: [222]
+  - train_id: 10
+    name: 하늘
+    raw_ids: [223]
+  - train_id: 11
+    name: 가로등
+    raw_ids: [253]

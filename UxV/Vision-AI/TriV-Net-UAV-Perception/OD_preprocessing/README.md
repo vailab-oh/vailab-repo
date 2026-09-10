@@ -35,26 +35,22 @@ Each input mask must:
 - use the class-to-ID mappings listed below; and
 - have a filename ending in `_train_id.png`.
 
-The expected directory layout is:
+The scripts must be run from the project root, where the shared `data/`
+directory is located. The expected directory layout is:
 
 ```text
-OD_preprocessing/
-├── README.md
-├── generate_neighborhood_od_annotations.py
-├── generate_oldtown_od_annotations.py
-└── data
-    ├── neighborhood
-    │   └── Easy
-    │       └── P001
-    │           └── seg_train_id
-    │               ├── 000000_left_train_id.png
-    │               └── ...
-    └── oldtown
-        └── Easy
-            └── P000
-                └── seg_train_id
-                    ├── 000000_left_train_id.png
-                    └── ...
+TriV-Net-UAV-Perception/
+├── OD_preprocessing/
+│   ├── README.md
+│   ├── generate_neighborhood_od_annotations.py
+│   └── generate_oldtown_od_annotations.py
+└── data/
+    ├── neighborhood/
+    │   ├── train/<scene>/seg_train_id/*_train_id.png
+    │   └── val/<scene>/seg_train_id/*_train_id.png
+    └── oldtown/
+        ├── train/<scene>/seg_train_id/*_train_id.png
+        └── val/<scene>/seg_train_id/*_train_id.png
 ```
 
 The scripts scan every directory matching `data/<environment>/*/*/seg_train_id`. They do not enforce a particular difficulty level, sequence list, or train/validation split.
@@ -87,12 +83,14 @@ The area threshold is applied to the **bounding-box area**, not to the number of
 
 ## Usage
 
-After cloning the repository, move to this directory so that the relative `data/...` paths resolve correctly:
+After cloning the repository, move to the `TriV-Net-UAV-Perception` project root
+so that the relative `data/...` paths used by both preprocessing and training
+resolve to the same directory:
 
 ```bash
-cd UxV/Vision-AI/TriV-Net-UAV-Perception/OD_preprocessing
-python generate_neighborhood_od_annotations.py
-python generate_oldtown_od_annotations.py
+cd vailab-repo/UxV/Vision-AI/TriV-Net-UAV-Perception
+python OD_preprocessing/generate_neighborhood_od_annotations.py
+python OD_preprocessing/generate_oldtown_od_annotations.py
 ```
 
 Each script prints per-sequence and overall counts for processed files, generated boxes, and images with no retained annotations.

@@ -1,0 +1,26 @@
+# Datasets and training outputs
+/data/
+/Training_result/
+
+# Model and deployment artifacts
+*.pth
+*.pt
+*.onnx
+*.engine
+*.npy
+
+# Generated logs and archives
+*.log
+*.zip
+*.tar
+*.tar.gz
+
+# Python/editor caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
