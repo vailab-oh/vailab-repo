@@ -14,7 +14,6 @@ All commands below are run from `triv_net_plus/` after the installation step.
 
 ## Repository contents
 
-- [Object-detection preprocessing](../OD_preprocessing/): generates bounding-box annotations from preprocessed TartanAir semantic segmentation masks for the Neighborhood and Old Town environments.
 - `train.py`: training entry point.
 - `train_model/`: TriV-Net+ model, data loader, task losses, GradNorm, and OD encoding/decoding.
 - `configs/`: MTL and STL configurations for both environments.
@@ -98,18 +97,11 @@ The selected training mode determines which files are required:
 
 Semantic class mappings are provided in `dataset_metadata/`.
 
-## Object-detection preprocessing
-
-The preprocessing code extracts 8-connected semantic components, converts them to axis-aligned bounding boxes, removes extremely small boxes, and writes one JSON annotation file per image.
-
-See the [preprocessing documentation](../OD_preprocessing/README.md) for input requirements, class mappings, directory layout, execution commands, and output format.
-
-After preparing the semantic train-ID masks, generate the OD annotations with:
-
-```bash
-python ../OD_preprocessing/generate_oldtown_od_annotations.py
-python ../OD_preprocessing/generate_neighborhood_od_annotations.py
-```
+To generate OD annotations for MTL or OD STL, follow the
+[shared object-detection preprocessing documentation](../OD_preprocessing/README.md).
+It covers input requirements, class mappings, execution commands, and output
+format. Run preprocessing from `triv_net_plus/` so that it uses the same `data/`
+directory as training.
 
 ## Run training
 
