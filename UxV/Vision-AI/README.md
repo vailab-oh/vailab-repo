@@ -6,10 +6,13 @@ Research resources for perception and computer vision methods for unmanned vehic
 
 ### [TriV-Net UAV Perception](TriV-Net-UAV-Perception/)
 
-Official implementation and reproducibility materials for TriV-Net. The currently
-available resources include object-detection preprocessing tools that generate
-bounding-box annotations from preprocessed TartanAir semantic segmentation masks
-for the Neighborhood and Old Town environments.
+Research code and reproducibility materials for TriV-Net and TriV-Net+.
+TriV-Net+ training code, MTL/STL configurations, and evaluation utilities are
+available. The TriV-Net implementation will be uploaded soon. Shared
+object-detection preprocessing generates bounding-box annotations from
+preprocessed TartanAir semantic segmentation masks for Neighborhood and Old Town.
 
-- [Project documentation](TriV-Net-UAV-Perception/README.md)
-- [Object-detection preprocessing](TriV-Net-UAV-Perception/OD_preprocessing/)
+- [Project overview](TriV-Net-UAV-Perception/README.md)
+- [TriV-Net: code coming soon](TriV-Net-UAV-Perception/triv_net/README.md)
+- [TriV-Net+: implementation and training](TriV-Net-UAV-Perception/triv_net_plus/README.md)
+- [Shared object-detection preprocessing](TriV-Net-UAV-Perception/OD_preprocessing/README.md)

@@ -4,6 +4,9 @@ This directory contains preprocessing scripts used to derive object-detection bo
 
 The scripts convert selected semantic classes into one JSON annotation file per image. Bounding boxes are obtained from 8-connected components in a single-channel segmentation mask.
 
+This is a shared preprocessing resource for the [TriV-Net project](../README.md).
+For the available training implementation, see [TriV-Net+](../triv_net_plus/README.md).
+
 ## Scripts
 
 - `generate_neighborhood_od_annotations.py`: generates annotations for Pole, House, and Car objects.
@@ -35,8 +38,8 @@ Each input mask must:
 - use the class-to-ID mappings listed below; and
 - have a filename ending in `_train_id.png`.
 
-The scripts must be run from the project root, where the shared `data/`
-directory is located. The expected directory layout is:
+For TriV-Net+, run the scripts from `triv_net_plus/`, where its `data/` directory
+is located. The expected directory layout is:
 
 ```text
 TriV-Net-UAV-Perception/
@@ -44,13 +47,16 @@ TriV-Net-UAV-Perception/
 │   ├── README.md
 │   ├── generate_neighborhood_od_annotations.py
 │   └── generate_oldtown_od_annotations.py
-└── data/
-    ├── neighborhood/
-    │   ├── train/<scene>/seg_train_id/*_train_id.png
-    │   └── val/<scene>/seg_train_id/*_train_id.png
-    └── oldtown/
-        ├── train/<scene>/seg_train_id/*_train_id.png
-        └── val/<scene>/seg_train_id/*_train_id.png
+├── triv_net/
+│   └── README.md
+└── triv_net_plus/
+    └── data/
+        ├── neighborhood/
+        │   ├── train/<scene>/seg_train_id/*_train_id.png
+        │   └── val/<scene>/seg_train_id/*_train_id.png
+        └── oldtown/
+            ├── train/<scene>/seg_train_id/*_train_id.png
+            └── val/<scene>/seg_train_id/*_train_id.png
 ```
 
 The scripts scan every directory matching `data/<environment>/*/*/seg_train_id`. They do not enforce a particular difficulty level, sequence list, or train/validation split.
@@ -83,14 +89,14 @@ The area threshold is applied to the **bounding-box area**, not to the number of
 
 ## Usage
 
-After cloning the repository, move to the `TriV-Net-UAV-Perception` project root
+After cloning the repository, move to the `TriV-Net-UAV-Perception/triv_net_plus` directory
 so that the relative `data/...` paths used by both preprocessing and training
 resolve to the same directory:
 
 ```bash
-cd vailab-repo/UxV/Vision-AI/TriV-Net-UAV-Perception
-python OD_preprocessing/generate_neighborhood_od_annotations.py
-python OD_preprocessing/generate_oldtown_od_annotations.py
+cd vailab-repo/UxV/Vision-AI/TriV-Net-UAV-Perception/triv_net_plus
+python ../OD_preprocessing/generate_neighborhood_od_annotations.py
+python ../OD_preprocessing/generate_oldtown_od_annotations.py
 ```
 
 Each script prints per-sequence and overall counts for processed files, generated boxes, and images with no retained annotations.
