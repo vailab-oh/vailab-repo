@@ -3,6 +3,7 @@
 Research on unmanned vehicles, currently organized into:
 
 - [Vision AI](Vision-AI/)
+  - [XGate-Net](Vision-AI/XGate-Net/): joint semantic segmentation and depth estimation
   - [TriV-Net / TriV-Net+ UAV Perception](Vision-AI/TriV-Net-UAV-Perception/)
     - [TriV-Net: code coming soon](Vision-AI/TriV-Net-UAV-Perception/triv_net/README.md)
     - [TriV-Net+: implementation and training](Vision-AI/TriV-Net-UAV-Perception/triv_net_plus/README.md)
