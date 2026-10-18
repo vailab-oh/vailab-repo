@@ -10,7 +10,7 @@ This repository organizes research resources from VAI Lab at Dong Seoul Universi
   - [Vision AI](UxV/Vision-AI/)
     - [XGate-Net](UxV/Vision-AI/XGate-Net/): joint semantic segmentation and depth estimation
     - [TriV-Net / TriV-Net+ UAV Perception](UxV/Vision-AI/TriV-Net-UAV-Perception/)
-      - [TriV-Net: code coming soon](UxV/Vision-AI/TriV-Net-UAV-Perception/triv_net/README.md)
+      - [TriV-Net: OldTown training and inference](UxV/Vision-AI/TriV-Net-UAV-Perception/triv_net/README.md)
       - [TriV-Net+: implementation and training](UxV/Vision-AI/TriV-Net-UAV-Perception/triv_net_plus/README.md)
       - [Shared OD preprocessing: annotation generation](UxV/Vision-AI/TriV-Net-UAV-Perception/OD_preprocessing/README.md)
   - [Path Planning](UxV/Path-Planning/)
@@ -27,7 +27,7 @@ vailab-repo/
 │   │   ├── XGate-Net/
 │   │   └── TriV-Net-UAV-Perception/
 │   │       ├── OD_preprocessing/
-│   │       ├── triv_net/       # Code coming soon
+│   │       ├── triv_net/
 │   │       └── triv_net_plus/  # Available implementation
 │   └── Path-Planning/
 │       └── TA-RRT/

@@ -1,0 +1,48 @@
+dataset_root: data/oldtown
+output_root: Training_result
+height: 384
+width: 640
+epochs: 50
+batch_size: 4
+workers: 4
+lr: 0.0001
+weight_decay: 1.0e-07
+lr_step_ratio: 0.25
+lr_gamma: 0.4
+
+seed: 20260806
+deterministic: true
+gradient_clip_norm: 5.0
+eval_od_metrics: true
+eval_od_score_thresh: 0.001
+eval_od_nms_thresh: 0.5
+eval_od_topk: 100
+
+seg_num_classes: 12
+seg_ignore_index: 255
+od_num_classes: 5
+od_min_box_size: 1
+original_od_classification_loss_weight: 1.0
+original_od_regression_loss_weight: 1.0
+
+loss_lambda:
+  seg: 1.0
+  depth: 0.3
+  od: 30.0
+
+model:
+  architecture_family: original_trivnet
+  encoder: Resnet
+  decoder: FPN
+  pretrained: true
+
+model_conf:
+  Depth: true
+  Seg: true
+  od: true
+
+checkpoint:
+  metric: val_loss
+
+loss_balance:
+  mode: static

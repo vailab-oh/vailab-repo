@@ -1,0 +1,7 @@
+torch>=1.12
+torchvision>=0.13
+numpy>=1.21,<2
+Pillow>=9
+PyYAML>=6
+opencv-python>=4.5.5
+tqdm>=4.64

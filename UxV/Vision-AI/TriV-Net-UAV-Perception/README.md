@@ -8,11 +8,13 @@ is maintained as a shared resource.
 
 | Version | Status | Documentation |
 | --- | --- | --- |
-| TriV-Net | Code coming soon; implementation has not been uploaded yet. | [TriV-Net](triv_net/README.md) |
+| TriV-Net | OldTown MTL/STL training and single-image inference are available. | [TriV-Net](triv_net/README.md) |
 | TriV-Net+ | Training implementation, MTL/STL configurations, and evaluation utilities are available. | [TriV-Net+](triv_net_plus/README.md) |
 
-The currently available training code belongs to TriV-Net+. See its documentation
-for the model architecture, installation, dataset preparation, and training commands.
+Both implementations are available in separate directories. Follow the README
+for the model you intend to use for installation, dataset preparation, and
+training commands. TriV-Net supports OldTown; TriV-Net+ includes configurations
+for Neighborhood and Old Town.
 
 ## Object-detection preprocessing
 
@@ -39,10 +41,20 @@ python ../OD_preprocessing/generate_neighborhood_od_annotations.py
 ```text
 TriV-Net-UAV-Perception/
 ├── README.md
-├── OD_preprocessing/       # Shared object-detection annotation generation
-├── triv_net/               # TriV-Net: code coming soon
-│   └── README.md
-└── triv_net_plus/           # TriV-Net+ implementation
+├── OD_preprocessing/
+├── triv_net/
+│   ├── README.md
+│   ├── train.py
+│   ├── predict.py
+│   ├── visualization.py
+│   ├── train_model/
+│   ├── configs/
+│   ├── scripts/
+│   ├── dataset_metadata/
+│   ├── evaluation/
+│   ├── tests/
+│   └── requirements.txt
+└── triv_net_plus/
     ├── README.md
     ├── train.py
     ├── train_model/
@@ -56,9 +68,13 @@ TriV-Net-UAV-Perception/
 
 ## Getting started
 
+- [TriV-Net installation, training, and inference](triv_net/README.md)
 - [TriV-Net+ installation and training](triv_net_plus/README.md)
 - [Shared object-detection preprocessing](OD_preprocessing/README.md)
-- [TriV-Net upload status](triv_net/README.md)
+
+Run TriV-Net commands from `triv_net/` using the processed OldTown data described
+in its README. Its default data and output directories are `triv_net/data/oldtown/`
+and `triv_net/Training_result/`.
 
 For the existing TriV-Net+ configurations, run training and preprocessing from
 `triv_net_plus/`. Both use `triv_net_plus/data/` as the dataset directory;
