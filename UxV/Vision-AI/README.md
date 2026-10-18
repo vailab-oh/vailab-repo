@@ -4,6 +4,11 @@ Research resources for perception and computer vision methods for unmanned vehic
 
 ## Projects
 
+### [XGate-Net](XGate-Net/)
+
+PyTorch implementation for joint semantic segmentation and depth estimation from
+a single RGB image, including training and inference code.
+
 ### [TriV-Net UAV Perception](TriV-Net-UAV-Perception/)
 
 Research code and reproducibility materials for TriV-Net and TriV-Net+.
