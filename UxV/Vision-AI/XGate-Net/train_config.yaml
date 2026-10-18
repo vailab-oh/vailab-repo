@@ -1,0 +1,10 @@
+height: 384
+width: 1280
+model:
+  encoder: Densnet
+  decoder: FPN
+model_conf:
+  Depth: true
+  Seg: true
+  od: false
+  num_seg_classes: 15
