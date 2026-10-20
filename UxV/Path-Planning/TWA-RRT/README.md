@@ -142,3 +142,7 @@ Five paired one-trial checks at seed 42 and 6000 iterations/draws produced ident
 Cite Taegeun Oh, *Time-Window-Aware Sampling-Based Path Planning for Time-Constrained Unmanned Aerial Vehicle Missions*, accepted paper. CITATION.cff records the accepted status; journal, DOI, and final publication details will be updated when available.
 
 `LICENSE` grants MIT for **twa_rrt.py only**, as authorized by its author. Redistribution terms for the baseline/analysis/data artifacts remain unconfirmed. Do not present the whole repository as MIT until ownership and any upstream licenses are resolved. The manuscript itself is not bundled.
+
+## Contact
+
+- **Taegeun Oh, Ph.D. (Dong Seoul University):** [tgoh@du.ac.kr](mailto:tgoh@du.ac.kr)
