@@ -1,0 +1,64 @@
+{
+  "benchmark_cases_2.json": {
+    "deleted": [
+      "caseA2: algorithms.st_rrt.dt_min",
+      "caseA3: algorithms.st_rrt.dt_min",
+      "caseA_lateWindow: algorithms.st_rrt.dt_min",
+      "caseB5_narrow: algorithms.st_rrt.dt_min",
+      "caseB4_narrow: algorithms.st_rrt.dt_min",
+      "caseC_clutter: algorithms.st_rrt.dt_min",
+      "caseC2_clutter: algorithms.st_rrt.dt_min",
+      "caseC_clutter_twRelaxed: algorithms.st_rrt.dt_min"
+    ],
+    "modified": [
+      "outputs.out_dir: ../output -> output",
+      "meta.name: wiser_rrt -> twa_rrt when present"
+    ],
+    "preserved": "All other fields, all case IDs, geometry, time, dynamics, seeds, trial counts and planner budgets."
+  },
+  "benchmark_cases_M1.json": {
+    "deleted": [
+      "caseM1_cluttered_forest: algorithms.st_rrt.dt_min",
+      "caseM2_cluttered_detour: algorithms.st_rrt.dt_min",
+      "caseM3_cluttered_detour: algorithms.st_rrt.dt_min",
+      "caseM4_cluttered_detour: algorithms.st_rrt.dt_min"
+    ],
+    "modified": [
+      "outputs.out_dir: ../output -> output",
+      "meta.name: wiser_rrt -> twa_rrt when present"
+    ],
+    "preserved": "All other fields, all case IDs, geometry, time, dynamics, seeds, trial counts and planner budgets."
+  },
+  "benchmark_cases_N1.json": {
+    "deleted": [
+      "caseN1: algorithms.st_rrt.dt_min",
+      "caseN2_phase1_broad: algorithms.st_rrt.dt_min",
+      "caseN2_phase2_strict: algorithms.st_rrt.dt_min",
+      "caseN2_phase3_extreme: algorithms.st_rrt.dt_min"
+    ],
+    "modified": [
+      "outputs.out_dir: ../output -> output",
+      "meta.name: wiser_rrt -> twa_rrt when present"
+    ],
+    "preserved": "All other fields, all case IDs, geometry, time, dynamics, seeds, trial counts and planner budgets."
+  },
+  "benchmark_cases_M1_with_early_arrival.json": {
+    "deleted": [
+      "caseM1_cluttered_forest: algorithms.st_rrt.dt_min",
+      "caseM2_cluttered_detour: algorithms.st_rrt.dt_min",
+      "caseM3_cluttered_detour: algorithms.st_rrt.dt_min",
+      "caseM4_cluttered_detour: algorithms.st_rrt.dt_min",
+      "caseM5_early_arrival_loiter: algorithms.st_rrt.dt_min"
+    ],
+    "modified": [
+      "outputs.out_dir: ../output -> output",
+      "meta.name: wiser_rrt -> twa_rrt when present"
+    ],
+    "preserved": "All other fields, all case IDs, geometry, time, dynamics, seeds, trial counts and planner budgets."
+  },
+  "subsequent_manuscript_selection": {
+    "record": "BENCHMARK_SELECTION.json",
+    "current_case_count": 4,
+    "note": "Earlier per-field removals describe initial cleanup; only the selected manuscript case remains in each public JSON."
+  }
+}

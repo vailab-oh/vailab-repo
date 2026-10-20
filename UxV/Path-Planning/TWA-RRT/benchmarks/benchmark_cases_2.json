@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "name": "moderate",
+    "description": "Experiment cases for TB-RRT*, ST-RRT, STL-RRT, and WISER-RRT*"
+  },
+  "cases": [
+    {
+      "case_id": "moderate",
+      "world": {
+        "xlim": [
+          0,
+          220
+        ],
+        "ylim": [
+          0,
+          160
+        ]
+      },
+      "start": {
+        "x": 30.0,
+        "y": 30.0
+      },
+      "goal": {
+        "x": 180.0,
+        "y": 120.0
+      },
+      "obstacles": [
+        {
+          "type": "circle",
+          "cx": 60.0,
+          "cy": 60.0,
+          "r": 13.0,
+          "id": "O00"
+        },
+        {
+          "type": "circle",
+          "cx": 120.0,
+          "cy": 80.0,
+          "r": 14.0,
+          "id": "O01"
+        },
+        {
+          "type": "circle",
+          "cx": 160.0,
+          "cy": 110.0,
+          "r": 12.0,
+          "id": "O02"
+        }
+      ],
+      "time": {
+        "t_ref": 7.5,
+        "t_window": [
+          7.1,
+          7.9
+        ]
+      },
+      "dynamics": {
+        "v_min": 25.0,
+        "v_max": 25.0,
+        "a_max": 3.0,
+        "v0": 25.0
+      },
+      "random": {
+        "seed_base": 42,
+        "num_trials": 100
+      },
+      "planner": {
+        "n_iters": 6000,
+        "goal_sample_rate": 0.15,
+        "step_size": 3.0,
+        "neighbor_radius": 35.0
+      },
+      "outputs": {
+        "out_dir": "output"
+      },
+      "algorithms": {
+        "tb_rrt": {
+          "eps_state": 5.0,
+          "dt_min": 0.1
+        },
+        "st_rrt": {
+          "eps_state": 5.0
+        },
+        "stl_rrt": {
+          "eps_state": 5.0,
+          "dt_min": 0.1,
+          "stl_weight": 0.6
+        },
+        "wiser_rrt": {
+          "eps_state": 5.0,
+          "w_tw": 0.05,
+          "w_tw_pred": 0.5,
+          "delta_late": 10.0,
+          "r_hold": 20.0,
+          "time_window_mode": "fixed"
+        }
+      }
+    }
+  ]
+}

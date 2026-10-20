@@ -1,0 +1,677 @@
+--- STL_RRT_Prop/stl_rrt_Prop_r7_wiser_R7_r2.py
++++ twa_rrt.py
+@@ -1,7 +1,9 @@
+ #!/usr/bin/env python3
+ # -*- coding: utf-8 -*-
++# SPDX-License-Identifier: MIT
++# Copyright (c) 2026 Taegeun Oh
+ """
+-WISER-RRT*: Window-constrained Intelligent Sampling-based Euclidian RRT*
++TWA-RRT*: constant-speed path planning with arrival-time windows
+ ======================================================
+ R7: Constant Velocity Model for Spatial-only Time Matching
+ 
+@@ -38,7 +40,7 @@
+ import csv
+ import numpy as np
+ import matplotlib.pyplot as plt
+-from mpl_toolkits.mplot3d import Axes3D
++
+ from typing import List, Tuple, Optional, Any, Dict
+ from dataclasses import dataclass, field
+ from enum import Enum, auto
+@@ -91,7 +93,7 @@
+     num_trials: int = 5
+     save_dir_name: str = "rrt_runs"
+     
+-    # --- WISER-RRT* ---
++    # --- TWA-RRT* ---
+     # Weights
+     w_L: float = 1.0
+     w_tw: float = 0.05
+@@ -228,7 +230,7 @@
+         
+     # 9. Outputs
+     if "outputs" not in case:
+-        case["outputs"] = {"out_dir": "../output"}
++        case["outputs"] = {"out_dir": "output"}
+         
+     return case
+ 
+@@ -1295,7 +1297,7 @@
+         return ordered
+ 
+ # ============================================================
+-# WISER-RRT PLANNER (Updated for WISER)
++# TWA-RRT* PLANNER (Updated for WISER)
+ # ============================================================
+ 
+ class WiserRrtPlanner:
+@@ -1305,7 +1307,7 @@
+         # self.obs = rrt.obs # Accessed via rrt
+ 
+     def plan(self, t_window: Optional[Tuple[float, float]] = None):
+-        logging.info("Step 1: WISER-RRT* Search...")
++        logging.info("Step 1: TWA-RRT* Search...")
+         self.rrt.search(t_window=t_window)
+         
+         # Best Node
+@@ -1477,7 +1479,7 @@
+ def plot_results(config: Config, rrt: EuclideanRRTStar, plan_result=None, run_id=0, save_dir=None):
+     import matplotlib.pyplot as plt
+     import matplotlib.patches as patches
+-    from mpl_toolkits.mplot3d import Axes3D
++
+ 
+     # Standardize Goal Node for plotting
+     t_center = (config.t_window[0] + config.t_window[1]) / 2.0
+@@ -1511,7 +1513,7 @@
+     # --- 1. 2D Plot ---
+     fig, ax = plt.subplots(figsize=(6.6, 5.0), dpi=120)
+ 
+-    title = f"Trial {run_id} — WISER-RRT*"
++    title = f"Trial {run_id} — TWA-RRT*"
+     if not path_success: title += " (FAILED)"
+     ax.set_title(title)
+ 
+@@ -1692,7 +1694,7 @@
+     
+     script_dir = os.path.dirname(os.path.abspath(__file__))
+     # Assuming script is in <root>/STL_RRT_Prop/, and we want <root>/output/
+-    default_root = os.path.join(script_dir, "..", "output")
++    default_root = os.path.join(script_dir, "output")
+     
+     case_out = case.get("outputs", {}).get("out_dir") if case else None
+     
+@@ -1716,7 +1718,7 @@
+     os.makedirs(run_dir, exist_ok=True)
+     
+     logging.info("="*70)
+-    logging.info(f"WISER-RRT* (R7) Experiments (Case: {c_id})")
++    logging.info(f"TWA-RRT* (R7) Experiments (Case: {c_id})")
+     logging.info(f"Window: {cfg.t_window}, DeltaLate: {cfg.delta_late}, V_max: {cfg.v_max}")
+     logging.info(f"Target Dir: {run_dir}")
+     logging.info("="*70)
+@@ -1790,7 +1792,7 @@
+             # - *_actual (Strict/Original)
+             
+             # Construct Row
+-            row = to_reference_row(c_id, i+1, seed, "WISER-RRT* (R7)", res, runtime, len(planner.rrt.nodes),
++            row = to_reference_row(c_id, i+1, seed, "TWA-RRT* (R7)", res, runtime, len(planner.rrt.nodes),
+                                    first_sol_time, first_path_len, first_total_err, smoothness)
+             
+             # Add WISER Meta
+@@ -1975,8 +1977,8 @@
+     logging.info(f"Experiments completed for Case {c_id}. Results saved to: {run_dir}")
+ 
+ def main():
+-    parser = argparse.ArgumentParser(description="Run WISER-RRT* Experiments")
+-    parser.add_argument("--cases", type=str, help="Path to benchmark_cases.json file", default="benchmark_cases.json")
++    parser = argparse.ArgumentParser(description="Run TWA-RRT* Experiments")
++    parser.add_argument("--cases", type=str, help="Path to benchmark_cases.json file", default="benchmarks/benchmark_cases_2.json")
+     parser.add_argument("--case_id", type=str, help="Specific case ID to run (e.g., caseA)")
+     parser.add_argument("--out_dir", type=str, help="Output root directory override")
+     parser.add_argument("--no_plots", action="store_true", help="Disable plotting")
+--- TB_RRT/tb_rrt_r7_260226.py
++++ baselines/tb_rrt.py
+@@ -1,3 +1,11 @@
++# TB-RRT* benchmark implementation (paper label: TB-RRT)
++# Sintov, A., and Shapiro, A. (2014). Time-based RRT Algorithm for Rendezvous Planning of Two Dynamic Systems. ICRA, 6745-6750.
++# https://doi.org/10.1109/ICRA.2014.6907855
++# Original-author code reuse and independent reimplementation status: unverified.
++# Benchmark changes: star-style parent choice/rewiring; static 2D circles; fixed goal/window; common JSON and metrics. The cited paper is TB-RRT, not a verified TB-RRT* reference.
++# Redistribution license: unresolved; root MIT scope excludes baselines.
++# Publication preparation changes only names, references and file/output paths.
++
+ # Created: 2025-06-12
+ # Modified: 2026-01-31 (TB-RRT* 논문 8가지 보완 반영)
+ ## TB-RRT* (Time-Biased RRT*) 알고리즘 완전 개선 버전
+@@ -41,7 +49,6 @@
+ import logging
+ import time
+ import matplotlib.pyplot as plt
+-from mpl_toolkits.mplot3d import Axes3D
+ import os
+ import csv
+ import datetime
+@@ -149,7 +156,7 @@
+     
+     # 9. Outputs
+     if "outputs" not in case:
+-        case["outputs"] = {"out_dir": "../output"}
++        case["outputs"] = {"out_dir": "output"}
+         
+     return case
+ 
+@@ -1041,44 +1048,8 @@
+     plt.savefig(os.path.join(save_dir, f"trial_{trial_idx:03d}_2d.png"))
+     plt.close(fig)
+ 
+-    # 3D 플롯 (STL-RRT* 스타일)
+-    fig = plt.figure(figsize=(8, 6))
+-    ax = fig.add_subplot(111, projection='3d')
+-
+-    # 3D 플롯 (기존 코드 위/아래 아무데나 안전)
+-    if obstacles:
+-        theta = np.linspace(0, 2*np.pi, 100)
+-        for (ox, oy, r) in obstacles:
+-            cx = ox + r*np.cos(theta)
+-            cy = oy + r*np.sin(theta)
+-            z0 = np.zeros_like(theta)
+-            ax.plot(cx, cy, z0, 'k--', linewidth=1.0, alpha=0.7)
+-
+-    for node in tree:
+-        if node.parent:
+-            ax.plot([node.x, node.parent.x], [node.y, node.parent.y], [node.t, node.parent.t], color='#bbbbbb', linewidth=0.5)
+-    if path and len(path) >= 2:
+-        # 부분 경로도 표시 (실패 시 빨간색)
+-        if spatial_err is not None:
+-            path_color = '#0072B2'  # 성공
+-        else:
+-            path_color = '#FF6B6B'  # 부분 경로 (실패)
+-        ax.plot(px, py, pt, color=path_color, linewidth=2, label='Path')
+-    ax.scatter(start_node.x, start_node.y, start_node.t, marker='o', s=90, color='#0099FF', edgecolor='k', label='Start')
+-    ax.scatter(goal_node.x, goal_node.y, goal_node.t, marker='*', s=180, color='#FF9900', edgecolor='k', label='Goal')
+-    ax.set_xlabel('X'); ax.set_ylabel('Y'); ax.set_zlabel('Time t')
+-    
+-    if path is None:
+-        ax.set_title('3D Tree & Path (FAILED)')
+-    else:
+-        ax.set_title('3D Tree & Path')
+-    ax.legend()
+-    plt.tight_layout()
+-    plt.savefig(os.path.join(save_dir, f"trial_{trial_idx:03d}_3d.png"))
+-    plt.close()
+-
+-
+-# ============ REFERENCE HEADER (WISER-RRT* Standard) ============
++
++# ============ REFERENCE HEADER (TWA-RRT* Standard) ============
+ REFERENCE_HEADER = [
+     'case_id', 'trial', 'algo', 'success', 'runtime_s', 'path_len', 'arrival_t',
+     'spatial_err', 'time_err', 'total_err', 'time_window_violation', 'nodes', 'seed', 
+@@ -1108,16 +1079,16 @@
+             "random": {"seed_base": SEED, "num_trials": TRIALS},
+             "planner": {"step_size": STEP_SIZE, "neighbor_radius": 35.0, "n_iters": 6000},
+             "algorithms": {"tb_rrt": {"eps_state": 5.0, "eps_time": 0.5, "dt_min": 0.1}},
+-            "outputs": {"out_dir": "../output"}
++            "outputs": {"out_dir": "output"}
+         }
+     case = eff
+ 
+     # 1. Setup Output Directory
+     c_id = case["case_id"]
+-    script_dir = os.path.dirname(os.path.abspath(__file__))
++    script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+     
+     if out_root is None:
+-        out_root = case.get("outputs", {}).get("out_dir", "rrt_runs")
++        out_root = case.get("outputs", {}).get("out_dir", "output")
+     
+     if not os.path.isabs(out_root):
+         out_root = os.path.join(script_dir, out_root)
+@@ -1346,7 +1317,7 @@
+ 
+ def main():
+     parser = argparse.ArgumentParser(description="Run TB-RRT Experiments")
+-    parser.add_argument("--cases", type=str, help="Path to JSON cases file", default="benchmark_cases.json")
++    parser.add_argument("--cases", type=str, help="Path to JSON cases file", default="benchmarks/benchmark_cases_2.json")
+     parser.add_argument("--case_id", type=str, help="Specific case ID to run")
+     parser.add_argument("--out_dir", type=str, help="Output root directory")
+     parser.add_argument("--no_plots", action="store_true", help="Disable plotting")
+--- ST_RRT/st_rrt_r4_260228.py
++++ baselines/st_rrt.py
+@@ -1,6 +1,14 @@
++# ST-RRT* benchmark implementation
++# Grothe, F., Hartmann, V. N., Orthey, A., and Toussaint, M. (2022). ST-RRT*: Asymptotically-Optimal Bidirectional Motion Planning through Space-Time. ICRA.
++# https://doi.org/10.1109/ICRA46639.2022.9811814
++# Original-author code reuse and independent reimplementation status: unverified.
++# Benchmark changes: static 2D circles, single tree instead of original bidirectional planner; constant-speed final evaluation; common JSON and metrics.
++# Redistribution license: unresolved; root MIT scope excludes baselines.
++# Publication preparation changes only names, references and file/output paths.
++
+ # Created: 2025-06-12
+ # Modified: 2026-02-01 (ST-RRT* paperish, TB-RRT runner-compatible)
+-# Modified: 2026-02-18 (JSON config support, unified metrics with TB-RRT/WISER-RRT)
++# Modified: 2026-02-18 (JSON config support, unified metrics with TB-RRT/TWA-RRT*)
+ # Modified: 2026-02-28 (R4: Constant Velocity Patch - Enforced T = L/V_MAX)
+ # NOTE: The paper includes dynamic obstacles, bidirectional trees, and goal trees.
+ #       This comparison implementation uses static obstacles and a single tree.
+@@ -9,7 +17,6 @@
+ import logging
+ import time
+ import matplotlib.pyplot as plt
+-from mpl_toolkits.mplot3d import Axes3D
+ import os
+ import csv
+ import datetime
+@@ -55,7 +62,7 @@
+ 
+ # Path length definition for CSV: sum of spatial distances (sum ||dq||)
+ 
+-# ============ REFERENCE HEADER (WISER-RRT* Standard) ============
++# ============ REFERENCE HEADER (TWA-RRT* Standard) ============
+ REFERENCE_HEADER = [
+     'case_id', 'trial', 'algo', 'success', 'runtime_s', 'path_len', 'arrival_t',
+     'spatial_err', 'time_err', 'total_err', 'time_window_violation', 'nodes', 'seed',
+@@ -361,7 +368,7 @@
+     
+     # 9. Outputs
+     if "outputs" not in case:
+-        case["outputs"] = {"out_dir": "rrt_runs"}
++        case["outputs"] = {"out_dir": "output"}
+         
+     return case
+ 
+@@ -854,46 +861,6 @@
+     plt.savefig(os.path.join(save_dir, f"trial_{trial_idx:03d}_2d.png"))
+     plt.close(fig)
+ 
+-    fig = plt.figure(figsize=(8, 6))
+-    ax = fig.add_subplot(111, projection='3d')
+-
+-    theta = np.linspace(0, 2*np.pi, 100)
+-    for (ox, oy, r) in obs:
+-        cx_c = ox + r*np.cos(theta)
+-        cy_c = oy + r*np.sin(theta)
+-        z0 = np.zeros_like(theta)
+-        ax.plot(cx_c, cy_c, z0, 'k--', linewidth=1.0, alpha=0.7)
+-
+-    for node in tree:
+-        if node.parent:
+-            ax.plot([node.x, node.parent.x], [node.y, node.parent.y], [node.t, node.parent.t], color='#bbbbbb', linewidth=0.5)
+-    if path and len(path) >= 2:
+-        if spatial_err is not None:
+-            path_color = '#0072B2'
+-        else:
+-            path_color = '#FF6B6B'
+-        px3 = [n.x for n in path]
+-        py3 = [n.y for n in path]
+-        pt3 = [n.t for n in path]
+-        ax.plot(px3, py3, pt3, color=path_color, linewidth=2, label='Path')
+-
+-    ax.scatter(start_node.x, start_node.y, start_node.t, marker='o', s=90, color='#0099FF', edgecolor='k', label='Start')
+-    if path and len(path) >= 1:
+-        goal_t = path[-1].t
+-    else:
+-        goal_t = 0.0
+-    ax.scatter(goal_center[0], goal_center[1], goal_t, marker='*', s=180, color='#FF9900', edgecolor='k', label='Goal Center')
+-    ax.set_xlabel('X'); ax.set_ylabel('Y'); ax.set_zlabel('Time t')
+-
+-    if path is None:
+-        ax.set_title('3D Tree & Path (FAILED)')
+-    else:
+-        ax.set_title('3D Tree & Path')
+-    ax.legend()
+-    plt.tight_layout()
+-    plt.savefig(os.path.join(save_dir, f"trial_{trial_idx:03d}_3d.png"))
+-    plt.close()
+-
+ 
+ def run_case(case: dict, out_root: str = None, save_plots: bool = True):
+     """
+@@ -919,7 +886,7 @@
+             "random": {"seed_base": SEED, "num_trials": TRIALS},
+             "planner": {"step_size": 3.0, "neighbor_radius": 35.0, "n_iters": 6000},
+             "algorithms": {"st_rrt": {"eps_state": 5.0, "dt_min": 0.1}},
+-            "outputs": {"out_dir": "rrt_runs"}
++            "outputs": {"out_dir": "output"}
+         }
+     
+     c_id = eff["case_id"]
+@@ -981,11 +948,11 @@
+     V_MAX = l_v_max
+ 
+     # 3. Output Directory
+-    script_dir = os.path.dirname(os.path.abspath(__file__))
++    script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+     
+     # Use out_root from CLI if provided, else from normalized config
+     if out_root is None:
+-        out_root = eff.get("outputs", {}).get("out_dir", "rrt_runs")
++        out_root = eff.get("outputs", {}).get("out_dir", "output")
+     
+     if not os.path.isabs(out_root):
+         # Place relative to script parent or root? TB-RRT usually uses script dir or relative to it.
+@@ -1172,7 +1139,7 @@
+ 
+ def main():
+     parser = argparse.ArgumentParser(description="Run ST-RRT* Experiments")
+-    parser.add_argument("--cases", type=str, help="Path to JSON cases file", default="benchmark_cases.json")
++    parser.add_argument("--cases", type=str, help="Path to JSON cases file", default="benchmarks/benchmark_cases_2.json")
+     parser.add_argument("--case_id", type=str, help="Filter by case_id")
+     parser.add_argument("--out_dir", type=str, help="Output root directory")
+     parser.add_argument("--no_plots", action="store_true", help="Disable plotting")
+--- STL_RRT_r0/stl_rrt_r6_260227.py
++++ baselines/stl_rrt.py
+@@ -1,3 +1,11 @@
++# STL-RRT* benchmark implementation
++# Linard, A., Torre, I., Bartoli, E., Sleat, A., Leite, I., and Tumova, J. (2023). Real-Time RRT* with Signal Temporal Logic Preferences. IROS, 8621-8627.
++# https://doi.org/10.1109/IROS55552.2023.10341993
++# Original-author code reuse and independent reimplementation status: unverified.
++# Benchmark changes: static 2D planning and arrival-window cost; fixed speed; common JSON, goal tolerance, metrics and failure fallback. This is not a verified copy of the social-navigation author implementation.
++# Redistribution license: unresolved; root MIT scope excludes baselines.
++# Publication preparation changes only names, references and file/output paths.
++
+ #!/usr/bin/env python3
+ # -*- coding: utf-8 -*-
+ """
+@@ -70,7 +78,7 @@
+ # Logging configuration
+ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+ 
+-# ============ REFERENCE HEADER (WISER-RRT* Standard) ============
++# ============ REFERENCE HEADER (TWA-RRT* Standard) ============
+ REFERENCE_HEADER = [
+     'case_id', 'trial', 'algo', 'success', 'runtime_s', 'path_len', 'arrival_t',
+     'spatial_err', 'time_err', 'total_err', 'time_window_violation', 'nodes', 'seed',
+@@ -359,7 +367,7 @@
+     
+     # 9. Outputs
+     if "outputs" not in case:
+-        case["outputs"] = {"out_dir": "rrt_runs"}
++        case["outputs"] = {"out_dir": "output"}
+         
+     return case
+ 
+@@ -1237,7 +1245,7 @@
+ def plot_results(tree, path_idx, start_xy, goal_center, goal_radius,
+                  spatial_err, time_err, total_err, elapsed_time, trial_idx, save_dir,
+                  world_bounds=None, obstacles=None):
+-    """Plot 2D and 3D views (ST-RRT compatible filenames)."""
++    """Plot the 2D view only (ST-RRT compatible filename)."""
+     if not HAVE_MPL:
+         return
+ 
+@@ -1299,40 +1307,6 @@
+     plt.savefig(os.path.join(save_dir, f"trial_{trial_idx:03d}_2d.png"))
+     plt.close(fig)
+ 
+-    # --- 3D plot ---
+-    fig = plt.figure(figsize=(8, 6))
+-    ax = fig.add_subplot(111, projection='3d')
+-
+-    theta_arr = np.linspace(0, 2*np.pi, 100)
+-    for (ox, oy, r) in obs:
+-        cx_c = ox + r * np.cos(theta_arr)
+-        cy_c = oy + r * np.sin(theta_arr)
+-        z0 = np.zeros_like(theta_arr)
+-        ax.plot(cx_c, cy_c, z0, 'k--', linewidth=1.0, alpha=0.7)
+-
+-    for node in tree:
+-        if node.parent is not None:
+-            p = tree[node.parent]
+-            ax.plot([node.x, p.x], [node.y, p.y], [node.t, p.t], color='#bbbbbb', linewidth=0.5)
+-
+-    if path_idx and len(path_idx) >= 2:
+-        path_nodes = [tree[i] for i in path_idx]
+-        path_color = '#0072B2' if spatial_err is not None else '#FF6B6B'
+-        px3 = [n.x for n in path_nodes]
+-        py3 = [n.y for n in path_nodes]
+-        pt3 = [n.t for n in path_nodes]
+-        ax.plot(px3, py3, pt3, color=path_color, linewidth=2, label='Path')
+-
+-    ax.scatter(start_xy[0], start_xy[1], 0, marker='o', s=90, color='#0099FF', edgecolor='k', label='Start')
+-    goal_t = tree[path_idx[-1]].t if path_idx else 0.0
+-    ax.scatter(goal_center[0], goal_center[1], goal_t, marker='*', s=180, color='#FF9900', edgecolor='k', label='Goal Center')
+-    ax.set_xlabel('X'); ax.set_ylabel('Y'); ax.set_zlabel('Time t')
+-    ax.set_title(f"Trial {trial_idx} - STL-RRT* (3D)" + (" (FAILED)" if not path_idx else ""))
+-    ax.legend()
+-    plt.tight_layout()
+-    plt.savefig(os.path.join(save_dir, f"trial_{trial_idx:03d}_3d.png"))
+-    plt.close()
+-
+ 
+ 
+ def path_length_idx(nodes: List[Node], path_idx: List[int]) -> float:
+@@ -1385,7 +1359,7 @@
+             "random": {"seed_base": SEED, "num_trials": TRIALS},
+             "planner": {"step_size": STEP_SIZE, "neighbor_radius": NEIGHBOR_RADIUS, "n_iters": N_ITERS},
+             "algorithms": {"stl_rrt": {"eps_state": EPS_STATE, "dt_min": DT_MIN, "stl_weight": STL_WEIGHT}},
+-            "outputs": {"out_dir": "rrt_runs"}
++            "outputs": {"out_dir": "output"}
+         }
+     
+     c_id = eff["case_id"]
+@@ -1460,10 +1434,10 @@
+     logging.info("=" * 70)
+ 
+     # 3. Output Directory
+-    script_dir = os.path.dirname(os.path.abspath(__file__))
++    script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+     
+     if out_root is None:
+-        out_root = eff.get("outputs", {}).get("out_dir", "rrt_runs")
++        out_root = eff.get("outputs", {}).get("out_dir", "output")
+     
+     if not os.path.isabs(out_root):
+         out_root = os.path.join(script_dir, out_root)
+@@ -1777,7 +1751,7 @@
+ 
+ def main():
+     parser = argparse.ArgumentParser(description="Run STL-RRT* Experiments")
+-    parser.add_argument("--cases", type=str, help="Path to JSON cases file", default="benchmark_cases.json")
++    parser.add_argument("--cases", type=str, help="Path to JSON cases file", default="benchmarks/benchmark_cases_2.json")
+     parser.add_argument("--case_id", type=str, help="Specific case ID to run")
+     parser.add_argument("--out_dir", type=str, help="Output root directory")
+     parser.add_argument("--no_plots", action="store_true", help="Disable plotting")
+--- HPO-RRT/hpo_rrt_star_r1.py
++++ baselines/hpo_rrt/hpo_rrt_star.py
+@@ -1,3 +1,11 @@
++# HPO-RRT* benchmark implementation
++# Guo, Y., Liu, X., Jia, Q., Liu, X., and Zhang, W. (2023). HPO-RRT*: A Sampling-Based Algorithm for UAV Real-Time Path Planning in a Dynamic Environment. Complex & Intelligent Systems 9, 7133-7153.
++# https://doi.org/10.1007/s40747-023-01115-2
++# Local implementation notes describe a paper-based reimplementation; no original-author code repository is recorded. Independent authorship still requires confirmation.
++# Benchmark changes: static 2D environment; common 6000-draw cap, speed, step, radius and evaluation; native geometric-goal termination retained. See docs/HPO_IMPLEMENTATION_NOTES.md.
++# Redistribution license: unresolved; root MIT scope excludes baselines.
++# Publication preparation changes only names, references and file/output paths.
++
+ """HPO-RRT* R1: explicit timing events, unchanged native search/termination.
+ 
+ DOI: 10.1007/s40747-023-01115-2. See README.md for paper ambiguities,
+--- HPO-RRT/run_hpo_rrt_star_r1.py
++++ baselines/hpo_rrt/run_hpo_benchmark.py
+@@ -17,16 +17,16 @@
+ import time
+ 
+ HERE = Path(__file__).resolve().parent
+-os.environ.setdefault('MPLCONFIGDIR', str(HERE / '.mpl-cache'))
++os.environ.setdefault('MPLCONFIGDIR', str(HERE.parents[1] / 'output' / '.mpl-cache'))
+ import numpy as np
+ from benchmark_adapter import ROOT, configure, load_cases, StaticEnvironment, evaluate, smoothness, plot, manuscript
+-from hpo_rrt_star_r1 import HPOConfig, HPORRTStar
++from hpo_rrt_star import HPOConfig, HPORRTStar
+ 
+ # commands.txt's comparison command identifies these representative manuscript
+ # cases. References only, never duplicate geometry or experiment configuration.
+-MANUSCRIPT_CASES = [('benchmark_cases_2.json', 'caseA3'),
+-                    ('benchmark_cases_N1.json', 'caseN2_phase2_strict'),
+-                    ('benchmark_cases_M1.json', 'caseM3_cluttered_detour')]
++MANUSCRIPT_CASES = [('benchmarks/benchmark_cases_2.json', 'moderate'),
++                    ('benchmarks/benchmark_cases_N1.json', 'narrow_passage'),
++                    ('benchmarks/benchmark_cases_M1.json', 'cluttered')]
+ 
+ 
+ def make_hpo_config(cfg, overrides=None):
+@@ -74,19 +74,19 @@
+     if args.out_dir:
+         out = Path(args.out_dir).resolve()
+     else:
+-        out = Path(case.get('outputs', {}).get('out_dir', '../output'))
++        out = Path(case.get('outputs', {}).get('out_dir', 'output'))
+         if not out.is_absolute():
+-            out = (HERE / out).resolve()
++            out = (ROOT / out).resolve()
+     # Smoke trials cannot be confused with a manuscript Monte Carlo run.
+     if args.smoke:
+-        out = HERE / 'verification_output'
++        out = ROOT / 'output' / 'verification_output'
+     folder = out / case['case_id'] / 'hpo_rrt_r1' / ('run_'+datetime.now().strftime('%Y%m%d_%H%M%S_%f'))
+     folder.mkdir(parents=True, exist_ok=False)
+     json_write(folder/'config_used.json', {'case':case,'resolved_config':asdict(cfg),
+         'hpo':asdict(hpocfg),'delta_t':hpocfg.delta_t,'window_metadata':meta,
+         'source_file':str(source),'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
+         'smoke_only':args.smoke,'python':sys.version,'platform':platform.platform(),
+-        'numpy':np.__version__, 'algorithm_source':hashlib.sha256((HERE/'hpo_rrt_star_r1.py').read_bytes()).hexdigest(),
++        'numpy':np.__version__, 'algorithm_source':hashlib.sha256((HERE/'hpo_rrt_star.py').read_bytes()).hexdigest(),
+         'runner_source':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+         'timing_protocol':'r1: runtime_s = planner.plan + external evaluate; setup/plot/export excluded',
+         'termination_policy':'first collision-free geometric goal path, then optimizer; no time-window feedback'})
+--- HPO-RRT/benchmark_adapter.py
++++ baselines/hpo_rrt/benchmark_adapter.py
+@@ -17,7 +17,7 @@
+ matplotlib.use('Agg')
+ import matplotlib.pyplot as plt
+ 
+-ROOT = Path(__file__).resolve().parents[1]
++ROOT = Path(__file__).resolve().parents[2]
+ 
+ 
+ def load_module(name, relative):
+@@ -36,8 +36,8 @@
+     return module
+ 
+ 
+-manuscript = load_module('hpo_manuscript', 'STL_RRT_Prop/stl_rrt_Prop_r7_wiser_R7_r2.py')
+-spatial = load_module('hpo_spatial', 'ST_RRT/st_rrt_r4_260228.py')
++manuscript = load_module('hpo_manuscript', 'twa_rrt.py')
++spatial = load_module('hpo_spatial', 'baselines/st_rrt.py')
+ 
+ 
+ def load_cases(path):
+@@ -131,7 +131,7 @@
+     original = matplotlib.axes.Axes.set_title
+ 
+     def title(ax, label, *args, **kwargs):
+-        return original(ax, label.replace('WISER-RRT*', 'HPO-RRT*'), *args, **kwargs)
++        return original(ax, label.replace('TWA-RRT*', 'HPO-RRT*'), *args, **kwargs)
+ 
+     with patch.object(matplotlib.axes.Axes, 'set_title', title):
+         manuscript.plot_results(cfg, SimpleNamespace(nodes=nodes), result,
+--- generate_comparison_table_r7.py
++++ analysis/generate_comparison_table.py
+@@ -1,7 +1,7 @@
+ # -*- coding: utf-8 -*-
+ # R7: aggregate HPO-RRT* R1 results with the existing historical baselines.
+ import os
+-os.environ.setdefault('MPLCONFIGDIR', os.path.join(os.path.dirname(__file__), 'HPO-RRT', '.mpl-cache'))
++os.environ.setdefault('MPLCONFIGDIR', os.path.join(os.path.dirname(__file__), '..', 'output', '.mpl-cache'))
+ import pandas as pd
+ import numpy as np
+ import matplotlib
+@@ -37,7 +37,7 @@
+ def parse_arguments():
+     parser = argparse.ArgumentParser(description="Generate RRT Algorithm Comparison Tables and Plots")
+     
+-    script_dir = os.path.dirname(os.path.abspath(__file__))
++    script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+     default_root = os.path.abspath(os.path.join(script_dir, "output"))
+     
+     # Required arguments
+@@ -52,7 +52,7 @@
+     parser.add_argument("--topN", type=int, default=5, help="Number of latest runs to use if run_mode is topN (Default: 5)")
+     
+     # Output control
+-    default_out = os.path.join(script_dir, "output_summary", "r7")
++    default_out = os.path.join(script_dir, "output", "analysis")
+     parser.add_argument("--out_root", default=default_out, help="Root directory for output summaries")
+     parser.add_argument("--no_plots", action="store_true", help="Skip generating boxplots")
+     parser.add_argument("--save_raw", action="store_true", help="Save combined raw data CSV")
+@@ -71,26 +71,27 @@
+     parser.add_argument("--tb_dir", help="Override TB-RRT* directory")
+     parser.add_argument("--st_dir", help="Override ST-RRT* directory")
+     parser.add_argument("--stl_dir", help="Override STL-RRT* directory")
+-    parser.add_argument("--wiser_dir", help="Override WISER-RRT* directory")
++    parser.add_argument("--wiser_dir", help="Override TWA-RRT* directory")
+     parser.add_argument("--hpo_dir", help="Override HPO-RRT* directory")
+     
+     # Specific Run Overrides (Priority High)
+     parser.add_argument("--tb_run", help="Specific TB-RRT* run path (file or dir)")
+     parser.add_argument("--st_run", help="Specific ST-RRT* run path (file or dir)")
+     parser.add_argument("--stl_run", help="Specific STL-RRT* run path (file or dir)")
+-    parser.add_argument("--wiser_run", help="Specific WISER-RRT* run path (file or dir)")
++    parser.add_argument("--wiser_run", help="Specific TWA-RRT* run path (file or dir)")
+     parser.add_argument("--hpo_run", help="Specific completed HPO-RRT* run path (file or dir)")
+ 
+     return parser.parse_args()
+ 
+ def load_benchmark_case_info(case_id, script_dir):
+     """
+-    Search for benchmark_cases*.json in script_dir and find info for case_id.
++    Search repository and benchmarks/ JSONs for the requested case ID.
+     Returns dict: {'t_ref': ..., 'tmin': ..., 'tmax': ...} or None.
+     """
+     patterns = [
+         "benchmark_cases.json",
+-        "benchmark_cases_*.json"
++        "benchmark_cases_*.json",
++        os.path.join("benchmarks", "benchmark_cases*.json")
+     ]
+     
+     found_files = []
+@@ -135,7 +136,7 @@
+         'TB-RRT': {'default_sub': 'tb_rrt', 'dir_arg': args.tb_dir, 'run_arg': args.tb_run},
+         'ST-RRT': {'default_sub': 'st_rrt', 'dir_arg': args.st_dir, 'run_arg': args.st_run},
+         'STL-RRT': {'default_sub': 'stl_rrt', 'dir_arg': args.stl_dir, 'run_arg': args.stl_run},
+-        'WISER-RRT': {'default_sub': 'wiser_rrt', 'dir_arg': args.wiser_dir, 'run_arg': args.wiser_run},
++        'TWA-RRT*': {'default_sub': 'wiser_rrt', 'dir_arg': args.wiser_dir, 'run_arg': args.wiser_run},
+         'HPO-RRT': {'default_sub': 'hpo_rrt_r1', 'dir_arg': args.hpo_dir, 'run_arg': args.hpo_run},
+     }
+     
+@@ -1126,7 +1127,7 @@
+ 
+ def _algo_display_name(algo):
+     """
+-    Rename 'WISER-RRT' to 'TWA-RRT' for display and 
++    Rename 'TWA-RRT*' to 'TWA-RRT' for display and 
+     ensure algorithm display name ends with '*' (e.g. TB-RRT*).
+     """
+     # 1. Rename WISER to TWA (case-insensitive)
+@@ -1697,7 +1698,7 @@
+     print(f"==================================================\n")
+     
+     # 1.5 Load Benchmark Case Info (Ground Truth for plots)
+-    script_dir = os.path.dirname(os.path.abspath(__file__))
++    script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+     benchmark_info = load_benchmark_case_info(case_id, script_dir)
+     if benchmark_info:
+         print(f"Loaded benchmark info for {case_id}: t_ref={benchmark_info['t_ref']}, t_window=[{benchmark_info['tmin']}, {benchmark_info['tmax']}]")
+--- run_early_arrival_experiment.py
++++ run_early_arrival_experiment.py
+@@ -14,11 +14,11 @@
+ 
+ ROOT = Path(__file__).resolve().parent
+ SCRIPTS = {
+-    'tb_rrt': 'TB_RRT/tb_rrt_r7_260226.py',
+-    'st_rrt': 'ST_RRT/st_rrt_r4_260228.py',
+-    'stl_rrt': 'STL_RRT_r0/stl_rrt_r6_260227.py',
+-    'wiser_rrt': 'STL_RRT_Prop/stl_rrt_Prop_r7_wiser_R7_r2.py',
+-    'hpo_rrt_r1': 'HPO-RRT/run_hpo_rrt_star_r1.py',
++    'tb_rrt': 'baselines/tb_rrt.py',
++    'st_rrt': 'baselines/st_rrt.py',
++    'stl_rrt': 'baselines/stl_rrt.py',
++    'wiser_rrt': 'twa_rrt.py',
++    'hpo_rrt_r1': 'baselines/hpo_rrt/run_hpo_benchmark.py',
+ }
+ 
+ 
+@@ -27,15 +27,15 @@
+ 
+ 
+ def main():
+-    batch = ROOT / 'early_arrival_experiments' / dt.datetime.now().strftime('M5_100_%Y%m%d_%H%M%S')
++    batch = ROOT / 'output' / 'early_arrival_experiments' / dt.datetime.now().strftime('M5_100_%Y%m%d_%H%M%S')
+     batch.mkdir(parents=True, exist_ok=False)
+-    source = ROOT / 'benchmark_cases_M1_with_early_arrival.json'
++    source = ROOT / 'benchmarks/benchmark_cases_M1_with_early_arrival.json'
+     original = json.loads(source.read_text(encoding='utf-8'))
+-    case = next(c for c in original['cases'] if c['case_id'] == 'caseM5_early_arrival_loiter')
++    case = next(c for c in original['cases'] if c['case_id'] == 'early_arrival')
+     case['random']['num_trials'] = 100
+     config = batch / 'benchmark_M5_100.json'
+     write(config, {'meta': {'source': str(source), 'change': 'M5 only; num_trials 5 -> 100 per user'}, 'cases': [case]})
+-    paths = list(SCRIPTS.values()) + ['HPO-RRT/hpo_rrt_star_r1.py', 'HPO-RRT/benchmark_adapter.py', source.name]
++    paths = list(SCRIPTS.values()) + ['baselines/hpo_rrt/hpo_rrt_star.py', 'baselines/hpo_rrt/benchmark_adapter.py', source.relative_to(ROOT).as_posix()]
+     hashes = {p: hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in paths}
+     manifest = {'status': 'running', 'started_at': dt.datetime.now().astimezone().isoformat(),
+                 'hostname': socket.gethostname(), 'platform': platform.platform(),

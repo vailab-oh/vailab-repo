@@ -10,6 +10,7 @@ Research on unmanned vehicles, currently organized into:
     - [Shared object-detection preprocessing](Vision-AI/TriV-Net-UAV-Perception/OD_preprocessing/README.md)
 - [Path Planning](Path-Planning/)
   - [TA-RRT*: Terrain-analysis-based adaptive RRT*](Path-Planning/TA-RRT/)
+  - [TWA-RRT*: Time-window-aware path planning](Path-Planning/TWA-RRT/) — paper accepted; publication details will be updated.
 
 Each project directory contains its source code, installation instructions,
 usage examples, publication information, and licensing terms.

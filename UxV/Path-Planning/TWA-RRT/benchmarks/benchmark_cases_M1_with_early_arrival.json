@@ -1,0 +1,183 @@
+{
+  "meta": {
+    "name": "early_arrival"
+  },
+  "cases": [
+    {
+      "case_id": "early_arrival",
+      "world": {
+        "xlim": [
+          0,
+          220
+        ],
+        "ylim": [
+          0,
+          160
+        ]
+      },
+      "start": {
+        "x": 20.0,
+        "y": 80.0
+      },
+      "goal": {
+        "x": 200.0,
+        "y": 80.0
+      },
+      "obstacles": [
+        {
+          "type": "circle",
+          "cx": 70.0,
+          "cy": 72.0,
+          "r": 12.0,
+          "id": "O_slalom_1"
+        },
+        {
+          "type": "circle",
+          "cx": 95.0,
+          "cy": 88.0,
+          "r": 12.0,
+          "id": "O_slalom_2"
+        },
+        {
+          "type": "circle",
+          "cx": 120.0,
+          "cy": 72.0,
+          "r": 12.0,
+          "id": "O_slalom_3"
+        },
+        {
+          "type": "circle",
+          "cx": 145.0,
+          "cy": 88.0,
+          "r": 12.0,
+          "id": "O_slalom_4"
+        },
+        {
+          "type": "circle",
+          "cx": 170.0,
+          "cy": 72.0,
+          "r": 12.0,
+          "id": "O_slalom_5"
+        },
+        {
+          "type": "circle",
+          "cx": 60.0,
+          "cy": 45.0,
+          "r": 15.0,
+          "id": "O_bot_1"
+        },
+        {
+          "type": "circle",
+          "cx": 100.0,
+          "cy": 40.0,
+          "r": 15.0,
+          "id": "O_bot_2"
+        },
+        {
+          "type": "circle",
+          "cx": 140.0,
+          "cy": 45.0,
+          "r": 15.0,
+          "id": "O_bot_3"
+        },
+        {
+          "type": "circle",
+          "cx": 180.0,
+          "cy": 40.0,
+          "r": 15.0,
+          "id": "O_bot_4"
+        },
+        {
+          "type": "circle",
+          "cx": 80.0,
+          "cy": 15.0,
+          "r": 12.0,
+          "id": "O_bot_5"
+        },
+        {
+          "type": "circle",
+          "cx": 120.0,
+          "cy": 15.0,
+          "r": 12.0,
+          "id": "O_bot_6"
+        },
+        {
+          "type": "circle",
+          "cx": 160.0,
+          "cy": 15.0,
+          "r": 12.0,
+          "id": "O_bot_7"
+        },
+        {
+          "type": "circle",
+          "cx": 110.0,
+          "cy": 110.0,
+          "r": 12.0,
+          "id": "O_mid_top"
+        },
+        {
+          "type": "circle",
+          "cx": 70.0,
+          "cy": 115.0,
+          "r": 10.0,
+          "id": "O_top_left"
+        },
+        {
+          "type": "circle",
+          "cx": 150.0,
+          "cy": 115.0,
+          "r": 10.0,
+          "id": "O_top_right"
+        }
+      ],
+      "time": {
+        "t_ref": 9.0,
+        "t_window": [
+          8.6,
+          9.4
+        ]
+      },
+      "dynamics": {
+        "v_min": 25.0,
+        "v_max": 25.0,
+        "a_max": 3.0,
+        "v0": 25.0
+      },
+      "random": {
+        "seed_base": 42,
+        "num_trials": 5
+      },
+      "planner": {
+        "n_iters": 6000,
+        "goal_sample_rate": 0.15,
+        "step_size": 3.0,
+        "neighbor_radius": 35.0
+      },
+      "outputs": {
+        "out_dir": "output"
+      },
+      "algorithms": {
+        "tb_rrt": {
+          "eps_state": 5.0,
+          "dt_min": 0.1
+        },
+        "st_rrt": {
+          "eps_state": 5.0
+        },
+        "stl_rrt": {
+          "eps_state": 5.0,
+          "dt_min": 0.1,
+          "stl_weight": 0.6
+        },
+        "wiser_rrt": {
+          "eps_state": 5.0,
+          "w_tw": 0.05,
+          "w_tw_pred": 0.5,
+          "delta_late": 10.0,
+          "r_hold": 20.0,
+          "time_window_mode": "fixed"
+        }
+      }
+    }
+  ]
+}

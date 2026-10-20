@@ -15,6 +15,7 @@ This repository organizes research resources from VAI Lab at Dong Seoul Universi
       - [Shared OD preprocessing: annotation generation](UxV/Vision-AI/TriV-Net-UAV-Perception/OD_preprocessing/README.md)
   - [Path Planning](UxV/Path-Planning/)
     - [TA-RRT*](UxV/Path-Planning/TA-RRT/)
+    - [TWA-RRT*](UxV/Path-Planning/TWA-RRT/): time-window-aware path planning; paper accepted, publication details forthcoming.
 - **[Medical AI](Medical-AI/)**
   - [Rabbit Brain Histopathology Dataset](Medical-AI/Rabbit-Brain-Histopathology-Dataset/)
 
@@ -30,7 +31,8 @@ vailab-repo/
 │   │       ├── triv_net/
 │   │       └── triv_net_plus/  # Available implementation
 │   └── Path-Planning/
-│       └── TA-RRT/
+│       ├── TA-RRT/
+│       └── TWA-RRT/
 └── Medical-AI/
     └── Rabbit-Brain-Histopathology-Dataset/
 ```

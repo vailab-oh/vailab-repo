@@ -1,0 +1,178 @@
+{
+  "python": "3.14.3 (main, Mar 10 2026, 18:14:48) [MSC v.1944 64 bit (AMD64)]",
+  "imports": {
+    "twa_rrt.py": {
+      "returncode": 0
+    },
+    "baselines/tb_rrt.py": {
+      "returncode": 0
+    },
+    "baselines/st_rrt.py": {
+      "returncode": 0
+    },
+    "baselines/stl_rrt.py": {
+      "returncode": 0
+    },
+    "baselines/hpo_rrt/hpo_rrt_star.py": {
+      "returncode": 0
+    },
+    "baselines/hpo_rrt/run_hpo_benchmark.py": {
+      "returncode": 0
+    },
+    "baselines/hpo_rrt/benchmark_adapter.py": {
+      "returncode": 0
+    },
+    "analysis/generate_comparison_table.py": {
+      "returncode": 0
+    }
+  },
+  "smoke": [
+    {
+      "kind": "original",
+      "script": "twa_rrt.py",
+      "returncode": 0,
+      "wall_s": 4.451739699987229
+    },
+    {
+      "kind": "original",
+      "script": "baselines/tb_rrt.py",
+      "returncode": 0,
+      "wall_s": 16.334607900003903
+    },
+    {
+      "kind": "original",
+      "script": "baselines/st_rrt.py",
+      "returncode": 0,
+      "wall_s": 16.778139400004875
+    },
+    {
+      "kind": "original",
+      "script": "baselines/stl_rrt.py",
+      "returncode": 0,
+      "wall_s": 39.990558799996506
+    },
+    {
+      "kind": "original",
+      "script": "baselines/hpo_rrt/run_hpo_benchmark.py",
+      "returncode": 0,
+      "wall_s": 4.154504099977203
+    },
+    {
+      "kind": "public",
+      "script": "twa_rrt.py",
+      "returncode": 0,
+      "wall_s": 4.605103400012013
+    },
+    {
+      "kind": "public",
+      "script": "baselines/tb_rrt.py",
+      "returncode": 0,
+      "wall_s": 28.593728900013957
+    },
+    {
+      "kind": "public",
+      "script": "baselines/st_rrt.py",
+      "returncode": 0,
+      "wall_s": 27.418326299986802
+    },
+    {
+      "kind": "public",
+      "script": "baselines/stl_rrt.py",
+      "returncode": 0,
+      "wall_s": 55.140092200017534
+    },
+    {
+      "kind": "public",
+      "script": "baselines/hpo_rrt/run_hpo_benchmark.py",
+      "returncode": 0,
+      "wall_s": 3.7067788999993354
+    }
+  ],
+  "json": [
+    {
+      "file": "benchmark_cases_2.json",
+      "cases": 8,
+      "all_experiment_values_equal": true
+    },
+    {
+      "file": "benchmark_cases_M1.json",
+      "cases": 4,
+      "all_experiment_values_equal": true
+    },
+    {
+      "file": "benchmark_cases_N1.json",
+      "cases": 4,
+      "all_experiment_values_equal": true
+    },
+    {
+      "file": "benchmark_cases_M1_with_early_arrival.json",
+      "cases": 5,
+      "all_experiment_values_equal": true
+    }
+  ],
+  "parity": [
+    {
+      "algorithm": "wiser_rrt",
+      "equal_non_timing_metrics": true,
+      "differences": {},
+      "success": "1"
+    },
+    {
+      "algorithm": "tb_rrt",
+      "equal_non_timing_metrics": true,
+      "differences": {},
+      "success": "1"
+    },
+    {
+      "algorithm": "st_rrt",
+      "equal_non_timing_metrics": true,
+      "differences": {},
+      "success": "1"
+    },
+    {
+      "algorithm": "stl_rrt",
+      "equal_non_timing_metrics": true,
+      "differences": {},
+      "success": "0"
+    },
+    {
+      "algorithm": "hpo_rrt_r1",
+      "equal_non_timing_metrics": true,
+      "differences": {},
+      "success": "1"
+    }
+  ],
+  "early_runner_import": 0,
+  "comparison_returncode": 0,
+  "source_hashes_equal": true,
+  "schema_cases": 21,
+  "syntax_files": 9,
+  "core_ast_checks": [
+    {
+      "file": "twa_rrt.py",
+      "definitions_checked": 14,
+      "differences": []
+    },
+    {
+      "file": "baselines/tb_rrt.py",
+      "definitions_checked": 29,
+      "differences": []
+    },
+    {
+      "file": "baselines/st_rrt.py",
+      "definitions_checked": 26,
+      "differences": []
+    },
+    {
+      "file": "baselines/stl_rrt.py",
+      "definitions_checked": 39,
+      "differences": []
+    },
+    {
+      "file": "baselines/hpo_rrt/hpo_rrt_star.py",
+      "definitions_checked": 4,
+      "differences": []
+    }
+  ],
+  "source_files_hash_checked": 17
+}

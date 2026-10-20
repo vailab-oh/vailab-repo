@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.vscode/
+.idea/
+.venv/
+.env
+*.log
+.mpl-cache/
+output/*
+!output/.gitkeep

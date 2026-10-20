@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "Please cite the accompanying manuscript, accepted for publication. Update publication metadata when available."
+title: "TWA-RRT*: Time-Window-Aware Sampling-Based Path Planning for Time-Constrained Unmanned Aerial Vehicle Missions"
+type: software
+authors:
+  - family-names: Oh
+    given-names: Taegeun
+    affiliation: Dong Seoul University
+preferred-citation:
+  type: unpublished
+  title: "Time-Window-Aware Sampling-Based Path Planning for Time-Constrained Unmanned Aerial Vehicle Missions"
+  authors:
+    - family-names: Oh
+      given-names: Taegeun
+  notes: "Accepted for publication; journal, DOI, and final publication details will be updated when available."

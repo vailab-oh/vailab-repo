@@ -1,0 +1,54 @@
+{
+  "basis": "Manuscript Section IV.A and obstacle geometry; Table 1 label discrepancy remains documented.",
+  "cases": [
+    {
+      "file": "benchmark_cases_2.json",
+      "source_case_id": "caseA3",
+      "public_case_id": "moderate",
+      "removed_case_ids": [
+        "caseA2",
+        "caseA_lateWindow",
+        "caseB5_narrow",
+        "caseB4_narrow",
+        "caseC_clutter",
+        "caseC2_clutter",
+        "caseC_clutter_twRelaxed"
+      ],
+      "experiment_values_unchanged": true
+    },
+    {
+      "file": "benchmark_cases_N1.json",
+      "source_case_id": "caseN2_phase2_strict",
+      "public_case_id": "narrow_passage",
+      "removed_case_ids": [
+        "caseN1",
+        "caseN2_phase1_broad",
+        "caseN2_phase3_extreme"
+      ],
+      "experiment_values_unchanged": true
+    },
+    {
+      "file": "benchmark_cases_M1.json",
+      "source_case_id": "caseM3_cluttered_detour",
+      "public_case_id": "cluttered",
+      "removed_case_ids": [
+        "caseM1_cluttered_forest",
+        "caseM2_cluttered_detour",
+        "caseM4_cluttered_detour"
+      ],
+      "experiment_values_unchanged": true
+    },
+    {
+      "file": "benchmark_cases_M1_with_early_arrival.json",
+      "source_case_id": "caseM5_early_arrival_loiter",
+      "public_case_id": "early_arrival",
+      "removed_case_ids": [
+        "caseM1_cluttered_forest",
+        "caseM2_cluttered_detour",
+        "caseM3_cluttered_detour",
+        "caseM4_cluttered_detour"
+      ],
+      "experiment_values_unchanged": true
+    }
+  ]
+}

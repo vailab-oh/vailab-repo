@@ -1,0 +1,84 @@
+{
+  "case_checks": [
+    {
+      "file": "benchmark_cases_2.json",
+      "case_id": "moderate",
+      "case_count": 1,
+      "schema_valid": true,
+      "four_planner_loaders": true,
+      "analysis_window_lookup": true,
+      "experiment_values_unchanged": true
+    },
+    {
+      "file": "benchmark_cases_N1.json",
+      "case_id": "narrow_passage",
+      "case_count": 1,
+      "schema_valid": true,
+      "four_planner_loaders": true,
+      "analysis_window_lookup": true,
+      "experiment_values_unchanged": true
+    },
+    {
+      "file": "benchmark_cases_M1.json",
+      "case_id": "cluttered",
+      "case_count": 1,
+      "schema_valid": true,
+      "four_planner_loaders": true,
+      "analysis_window_lookup": true,
+      "experiment_values_unchanged": true
+    },
+    {
+      "file": "benchmark_cases_M1_with_early_arrival.json",
+      "case_id": "early_arrival",
+      "case_count": 1,
+      "schema_valid": true,
+      "four_planner_loaders": true,
+      "analysis_window_lookup": true,
+      "experiment_values_unchanged": true
+    }
+  ],
+  "plot_checks": [
+    {
+      "planner": "tb",
+      "success_and_failure_plot_checks": true,
+      "files": [
+        "trial_001_2d.png",
+        "trial_002_2d.png"
+      ],
+      "three_d_axes_attempted": false
+    },
+    {
+      "planner": "st",
+      "success_and_failure_plot_checks": true,
+      "files": [
+        "trial_001_2d.png",
+        "trial_002_2d.png"
+      ],
+      "three_d_axes_attempted": false
+    },
+    {
+      "planner": "stl",
+      "success_and_failure_plot_checks": true,
+      "files": [
+        "trial_001_2d.png",
+        "trial_002_2d.png"
+      ],
+      "three_d_axes_attempted": false
+    }
+  ],
+  "hpo_default_case_selection": [
+    "moderate",
+    "narrow_passage",
+    "cluttered"
+  ],
+  "hpo_renamed_case_smoke": {
+    "case_id": "early_arrival",
+    "returncode": 0,
+    "two_d_saved": true,
+    "three_d_saved": false,
+    "complete_result_files": true
+  },
+  "two_d_plot_statements_unchanged": true,
+  "syntax_files": 9,
+  "source_hashes_unchanged": true
+}
