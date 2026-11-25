@@ -213,3 +213,9 @@ branching the trainer or dataset. Every adapter returns logits `[B, 2, H, W]` (c
   per-fold class weights only, with no images or labels.
 - **Model weights:** the pretrained weights each model starts from keep their own
   licenses (the SegFormer weights are non-commercial); see [MODELS.md](MODELS.md).
+
+
+## Contact
+
+- **Taegeun Oh, Ph.D. (Principal Investigator):** [tgoh@du.ac.kr](mailto:tgoh@du.ac.kr)
+- **Minkwon Jeon (Student Researcher):** [alsrnjs2311@gmail.com](mailto:alsrnjs2311@gmail.com)
