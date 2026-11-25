@@ -1,0 +1,35 @@
+# Paper training recipe -- UPerNet Swin-T (`--model upernet_swin_t`, backbone openmmlab/upernet-swin-tiny).
+# Every config is the same recipe; only `model` differs. Any CLI flag overrides a key.
+#
+#   torchrun --standalone --nproc_per_node=1 train.py --config configs/upernet_swin_t.yaml \
+#       --root <PREPARED> --output outputs/upernet_swin_t/fold1/seed42 --fold 1 --seed 42
+#
+# safe_weight is not set on purpose: train.py reads the per-fold value from
+# <PREPARED>/manifests/loso/class_weights.json.
+
+# data
+scheme: loso               # leave-one-sequence-out, temporal + 5 m spatial guard (needs --fold)
+slz_encoding: class_0_1_255
+height: 640                # (H, W) = (640, 768); image notation W x H = 768 x 640
+width: 768
+batch_size: 8              # GLOBAL batch; divided by the torchrun world size
+num_workers: 4
+hflip_prob: 0.5
+jitter_prob: 0.5           # image-only ColorJitter
+blur_prob: 0.3             # image-only Gaussian blur
+
+# model
+model: upernet_swin_t
+
+# optim / schedule
+epochs: 50
+lr: 1.0e-4
+weight_decay: 0.01
+warmup_ratio: 0.05
+poly_power: 0.9
+grad_clip: 1.0
+
+# runtime
+seed: 42
+amp: true
+skip_test: true            # the test set is scored once, afterwards, with evaluate.py

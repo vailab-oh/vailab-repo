@@ -1,0 +1,53 @@
+{
+  "policy": "inverse_frequency_labeled_train_pixels",
+  "formula": "w_unsafe = 1.0 ; w_safe = N_unsafe / N_safe",
+  "ignore_index_excluded": 255,
+  "note": "applied as the CE weight of the Safe class for every model family",
+  "scheme": "loso",
+  "folds": {
+    "fold1": {
+      "train_manifest": "manifests/loso/fold1/train.csv",
+      "n_unsafe": 673197396,
+      "n_safe": 71681424,
+      "n_ignore": 10095900,
+      "n_other": 0,
+      "n_frames": 1536,
+      "safe_fraction_labeled": 0.09623232944118347,
+      "w_unsafe": 1.0,
+      "w_safe": 9.39151817073277
+    },
+    "fold2": {
+      "train_manifest": "manifests/loso/fold2/train.csv",
+      "n_unsafe": 711926195,
+      "n_safe": 98865265,
+      "n_ignore": 10538460,
+      "n_other": 0,
+      "n_frames": 1671,
+      "safe_fraction_labeled": 0.12193673697549799,
+      "w_unsafe": 1.0,
+      "w_safe": 7.200973921427308
+    },
+    "fold3": {
+      "train_manifest": "manifests/loso/fold3/train.csv",
+      "n_unsafe": 926774460,
+      "n_safe": 93599105,
+      "n_ignore": 10835395,
+      "n_other": 0,
+      "n_frames": 2098,
+      "safe_fraction_labeled": 0.09173023313280367,
+      "w_unsafe": 1.0,
+      "w_safe": 9.901531216564518
+    },
+    "fold4": {
+      "train_manifest": "manifests/loso/fold4/train.csv",
+      "n_unsafe": 843069331,
+      "n_safe": 126651762,
+      "n_ignore": 2996987,
+      "n_other": 0,
+      "n_frames": 1979,
+      "safe_fraction_labeled": 0.13060638044716638,
+      "w_unsafe": 1.0,
+      "w_safe": 6.656593778774274
+    }
+  }
+}

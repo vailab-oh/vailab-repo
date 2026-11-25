@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.vscode/
+.idea/
+
+# run outputs and downloaded weights
+outputs/
+runs/
+wandb/
+external/
+*.pth
+*.pt
+*.ckpt
+*.pkl

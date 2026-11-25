@@ -1,0 +1,17 @@
+# Versions the paper's runs were trained and evaluated with (Python 3.10).
+# torch/torchvision: install the CUDA build matching your driver, e.g.
+#   pip install torch==2.8.0 torchvision==0.23.0 --index-url https://download.pytorch.org/whl/cu128
+torch==2.8.0
+torchvision==0.23.0
+transformers==5.1.0
+numpy==2.0.0
+scipy==1.15.3
+pandas==2.3.3
+pillow==12.2.0
+tqdm==4.65.2
+matplotlib==3.10.9
+PyYAML==6.0.3
+
+# Pseudo-label generation only (prepare_data.py --stage labels, tools/make_radius_variant.py)
+numba==0.60.0
+opencv-python==4.12.0.88

@@ -1,0 +1,77 @@
+{
+  "scheme": "loso",
+  "source_scheme": "loso_temporal",
+  "derivation": "spatial guard on top of the unmodified source scheme's train.csv; val.csv/test.csv copied through unchanged",
+  "d_guard_m": 5.0,
+  "folds": {
+    "fold1": {
+      "train_original": 1660,
+      "train_removed": 124,
+      "train_retained": 1536,
+      "val_frames": 325,
+      "test_frames": 1120,
+      "removed_by_family": {
+        "AMvalley": 0,
+        "HKairport": 124,
+        "HKisland": 0
+      },
+      "sha256": {
+        "train": "4f88610869b338eaa20e1250dfe13263c5493b546ad643afa4eb6997c77e3dbf",
+        "val": "26928d2719673ad2643440af22dad1af14f290239b93002acae7a349c390c01a",
+        "test": "ca1546072f4fe4e97f6754c66092480bac62024fffc5487fd3e34552d6962680"
+      }
+    },
+    "fold2": {
+      "train_original": 1795,
+      "train_removed": 124,
+      "train_retained": 1671,
+      "val_frames": 349,
+      "test_frames": 961,
+      "removed_by_family": {
+        "AMtown": 0,
+        "HKairport": 124,
+        "HKisland": 0
+      },
+      "sha256": {
+        "train": "b87ed57f24f3f87a7760a5ae9be189559614e15ab7d972b206f9ed3494963a14",
+        "val": "98d8d661f80ec5df0ee5eb6a6e325ce8a0ebe14dc8c8e017eb3ff0a099079860",
+        "test": "f0e4f94b99be35801a423522aebd952dd5f47ad892c58089a4fa449bc76303c4"
+      }
+    },
+    "fold3": {
+      "train_original": 2098,
+      "train_removed": 0,
+      "train_retained": 2098,
+      "val_frames": 402,
+      "test_frames": 605,
+      "removed_by_family": {
+        "AMtown": 0,
+        "AMvalley": 0,
+        "HKisland": 0
+      },
+      "sha256": {
+        "train": "65cd33e6111421ed0dc2be2e7e145650baf1d5f23be422ad2bb648f22cc5b7d1",
+        "val": "5b5d09895a1087689244cabc745aa9fb86afb97be2b1c98f05f0adcb35864dcd",
+        "test": "a676e8496cb2a118fd315cbfde9c97042e03d08439b7bcfdbf90aa6e89ff1265"
+      }
+    },
+    "fold4": {
+      "train_original": 2103,
+      "train_removed": 124,
+      "train_retained": 1979,
+      "val_frames": 403,
+      "test_frames": 599,
+      "removed_by_family": {
+        "AMtown": 0,
+        "AMvalley": 0,
+        "HKairport": 124
+      },
+      "sha256": {
+        "train": "7c13fb4c4602784dd7b50714c182cdd75f36231236a0677ec4ed0e256fbd5cd0",
+        "val": "f419b63303280db70d709a3ee14fdf8dd256cb43adaaa57ee4090e5804fc0f8c",
+        "test": "50ba636ecafa82d380e60f08d28cf0ff539feac949bcdbc7c797ef03549069f0"
+      }
+    }
+  },
+  "manifest_sha256": "4467e82b0577ee3f72e00b91278c7a0c30f595bfa08f51ca66e3e1c298f6711a"
+}
